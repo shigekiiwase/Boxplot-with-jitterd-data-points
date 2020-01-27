@@ -1,0 +1,35 @@
+#melt your dataframe
+
+melted_FC_CKO_Recip_DMR_2A <- melt(FC_CKO_Recip_DMR_2A, measure.vars = c('KMT2B_CKO','KMT2A_CKO', 'KMT2A_HET', 'KDM5C_KO', 'DM'))
+melted_FC_CKO_Recip_DMR_5C <- melt(FC_CKO_Recip_DMR_5C, measure.vars = c('KMT2B_CKO','KMT2A_CKO', 'KMT2A_HET', 'KDM5C_KO', 'DM'))
+melted_FC_CKO_SameD_DMR_2A <- melt(FC_CKO_SameD_DMR_2A, measure.vars = c('KMT2B_CKO','KMT2A_CKO', 'KMT2A_HET', 'KDM5C_KO', 'DM'))
+melted_FC_CKO_SameD_DMR_5C <- melt(FC_CKO_SameD_DMR_5C, measure.vars = c('KMT2B_CKO','KMT2A_CKO', 'KMT2A_HET', 'KDM5C_KO', 'DM'))
+
+#covert character values to numeric values
+melted_FC_CKO_Recip_DMR_2A$value <- as.numeric(as.character(melted_FC_CKO_Recip_DMR_2A$value))
+melted_FC_CKO_Recip_DMR_5C$value <- as.numeric(as.character(melted_FC_CKO_Recip_DMR_5C$value))
+melted_FC_CKO_SameD_DMR_2A$value <- as.numeric(as.character(melted_FC_CKO_SameD_DMR_2A$value))
+melted_FC_CKO_SameD_DMR_5C$value <- as.numeric(as.character(melted_FC_CKO_SameD_DMR_5C$value))
+
+#load programs for making boxplot
+require(reshape2)
+library(ggplot2)
+
+install.packages("colourpicker")
+library(colourpicker)
+colourPicker()
+
+#boxplots of reciprocal/sameD genes
+
+ggplot(melted_FC_CKO_Recip_DMR_2A, aes(variable, value, fill=variable)) + 
+  geom_boxplot(outlier.shape=NA) + 
+  geom_jitter(width=0.1,alpha=0.1) +
+  scale_fill_manual(values = c("#C1CDCD", "#68228B", "#9A32CD", "#32CD32", "#4876FF")) +
+  geom_jitter(width=0.1, alpha=0.1) +
+  xlab('Genotype') +
+  ylab('Log2FC') +
+  ggtitle('Recip_2A_DMRs') +
+  geom_hline(yintercept=0, linetype='solid', size= 1, color='#EE00EE') +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black")) 
+        
